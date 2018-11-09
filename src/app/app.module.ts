@@ -10,6 +10,7 @@ import { IonicImageLoader } from 'ionic-image-loader';
 
 import { MyApp } from './app.component';
 import { LabelPage } from '../pages/label/label';
+import { SearchPage } from '../pages/search/search';
 
 import { HomePage } from '../pages/home/home';
 import { PostPage } from '../pages/post/post';
@@ -22,7 +23,8 @@ import { ConstantsProvider } from '../providers/constants/constants';
     MyApp,
     HomePage,
     PostPage,
-    LabelPage
+    LabelPage,
+    SearchPage
   ],
   imports: [
     BrowserModule,
@@ -36,7 +38,8 @@ import { ConstantsProvider } from '../providers/constants/constants';
     MyApp,
     HomePage,
     PostPage,
-    LabelPage
+    LabelPage,
+    SearchPage
   ],
   providers: [
     StatusBar,

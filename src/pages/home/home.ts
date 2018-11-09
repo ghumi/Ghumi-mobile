@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { RestProvider } from '../../providers/rest/rest';
 import { PostPage } from '../post/post';
+import { SearchPage } from '../search/search';
 
 import { Http } from '@angular/http';
 import { ConstantsProvider } from '../../providers/constants/constants';
@@ -16,6 +17,8 @@ export class HomePage {
   nextPageToken: string;
   posts: any[];
   headlines: any[];
+
+  public isSearchbarOpened = false;
 
   constructor(
     public constants:ConstantsProvider, 
@@ -35,6 +38,11 @@ export class HomePage {
   
   openPost(post) {
     this.navCtrl.push(PostPage, {post:post})
+  }
+
+  onSearch(event){
+    console.log(event.target.value);
+    this.navCtrl.push(SearchPage, {searchString:event.target.value})
   }
 
   getHeadline(){

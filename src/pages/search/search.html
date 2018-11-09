@@ -1,0 +1,42 @@
+<ion-header>
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title *ngIf="!isSearchbarOpened">
+        {{ title }}
+      </ion-title>
+      <ion-searchbar *ngIf="isSearchbarOpened" showCancelButton="true" (search)="onSearch($event)" (ionCancel)="isSearchbarOpened=false"></ion-searchbar>
+      <ion-buttons end>
+        <button ion-button icon-only *ngIf="!isSearchbarOpened" (click)="isSearchbarOpened=true">
+          <ion-icon name="search"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-navbar>
+  </ion-header>
+
+  <ion-content padding>
+  <!--<ion-content padding #container>-->
+    <ion-list inset>
+      <button ion-item *ngFor="let post of posts" (click)="openPost(post)">
+        <ion-row>
+          <ion-col col-4>
+            <img-loader height="44" width="80" [src]="post?.imageurl" useImg (load)="onImageLoad($event)"></img-loader>
+            <!--<ion-img height="44" width="80" src={{post.imageurl}}></ion-img>-->
+          </ion-col>
+          <ion-col col-8>
+            <h2 text-wrap [innerHTML]="post.title"></h2>
+          </ion-col>
+        </ion-row>
+      </button>
+      <!--<button ion-button secondary menuToggle>Toggle Menu</button>-->
+    </ion-list>
+    
+    <!--<ion-infinite-scroll (ionInfinite)="doInfinite($event)">-->
+    <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite())">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </ion-content>

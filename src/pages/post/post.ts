@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 /**
  * Generated class for the PostPage page.
@@ -15,13 +16,22 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class PostPage {
   private post: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private socialSharing: SocialSharing) {
     this.post = navParams.get('post');
     console.log(this.post.title);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PostPage');
+  }
+
+  share(){
+    this.socialSharing.share(this.post.url)
+    .then(()=>{
+
+    }).catch(()=>{
+      
+    });
   }
 
 }

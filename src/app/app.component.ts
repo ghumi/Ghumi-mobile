@@ -7,6 +7,7 @@ import { HomePage } from '../pages/home/home';
 import { ImageLoaderConfig } from 'ionic-image-loader';
 import { LabelPage } from '../pages/label/label';
 
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -43,6 +44,15 @@ export class MyApp {
 
       this.statusBar.styleDefault();
       this.splashScreen.show();
+
+      var notificationOpenedCallback = function(jsonData) {
+        console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+      };
+  
+      window["plugins"].OneSignal
+        .startInit("91d7af9f-0011-416f-8acb-301167eee0ac", "493427328186")
+        .handleNotificationOpened(notificationOpenedCallback)
+        .endInit();
     });
   }
 

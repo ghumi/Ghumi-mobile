@@ -7,6 +7,8 @@ import { SearchPage } from '../search/search';
 import { Http } from '@angular/http';
 import { ConstantsProvider } from '../../providers/constants/constants';
 import { ImageLoader } from 'ionic-image-loader';
+import { AdMobFree, AdMobFreeBannerConfig } from '@ionic-native/admob-free';
+
 
 @Component({
   selector: 'page-home',
@@ -25,7 +27,8 @@ export class HomePage {
     public http: Http, 
     public navCtrl: NavController, 
     private imageLoader: ImageLoader,
-    public restProvider: RestProvider) {
+    public restProvider: RestProvider,
+    private admobFree: AdMobFree) {
     http.get('https://www.googleapis.com/blogger/v3/blogs/byurl?key=' + 
               constants.getApiKey() + '&url=' + constants.getUrl())
     .subscribe(response => {
@@ -34,6 +37,23 @@ export class HomePage {
       this.getPosts(data.posts.selfLink);
       this.getHeadline();
     });
+  }
+
+  showBanner(){
+    const bannerConfig: AdMobFreeBannerConfig = {
+    // add your config here
+    // for the sake of this example we will just use the test config
+    isTesting: true,
+    autoShow: true
+   };
+   this.admobFree.banner.config(bannerConfig);
+   
+   this.admobFree.banner.prepare()
+     .then(() => {
+       // banner Ad is ready
+       // if we set autoShow to false, then we will need to call the show method here
+     })
+     .catch(e => console.log(e));
   }
   
   openPost(post) {

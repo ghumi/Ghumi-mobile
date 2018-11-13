@@ -4,9 +4,12 @@ import { HttpModule } from '@angular/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { SocialSharing } from '@ionic-native/social-sharing';
 import { StatusBar } from '@ionic-native/status-bar';
 //import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { IonicImageLoader } from 'ionic-image-loader';
+
+import { AdMobFree } from '@ionic-native/admob-free';
 
 import { MyApp } from './app.component';
 import { LabelPage } from '../pages/label/label';
@@ -44,6 +47,8 @@ import { ConstantsProvider } from '../providers/constants/constants';
   providers: [
     StatusBar,
     SplashScreen,
+    SocialSharing,
+    AdMobFree,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     RestProvider,
     ConstantsProvider

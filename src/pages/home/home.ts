@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, Platform } from 'ionic-angular';
 import { RestProvider } from '../../providers/rest/rest';
 import { PostPage } from '../post/post';
 import { SearchPage } from '../search/search';
@@ -28,32 +28,36 @@ export class HomePage {
     public navCtrl: NavController, 
     private imageLoader: ImageLoader,
     public restProvider: RestProvider,
-    private admobFree: AdMobFree) {
+    private admobFree: AdMobFree,
+    private platform: Platform) {
     http.get('https://www.googleapis.com/blogger/v3/blogs/byurl?key=' + 
               constants.getApiKey() + '&url=' + constants.getUrl())
     .subscribe(response => {
       let data = response.json();
       this.title = 'ghumi.id';
       this.getPosts(data.posts.selfLink);
-      this.getHeadline();
     });
+    this.getHeadline();
+    this.showBanner();
   }
 
   showBanner(){
-    const bannerConfig: AdMobFreeBannerConfig = {
-    // add your config here
-    // for the sake of this example we will just use the test config
-    isTesting: true,
-    autoShow: true
-   };
-   this.admobFree.banner.config(bannerConfig);
-   
-   this.admobFree.banner.prepare()
-     .then(() => {
-       // banner Ad is ready
-       // if we set autoShow to false, then we will need to call the show method here
-     })
-     .catch(e => console.log(e));
+    if(this.platform.is('cordova')){
+      const bannerConfig: AdMobFreeBannerConfig = {
+        id: 'ca-app-pub-6893166228935188/6053120961',
+        isTesting: false,
+        autoShow: true
+        };
+      this.admobFree.banner.config(bannerConfig);
+      
+      this.admobFree.banner.prepare()
+        .then(() => {
+          // banner Ad is ready
+          // if we set autoShow to false, then we will need to call the show method here
+        })
+        .catch(e => console.log(e));
+    }
+    console.log('showBanner');
   }
   
   openPost(post) {

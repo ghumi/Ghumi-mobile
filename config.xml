@@ -85,5 +85,10 @@
     <plugin name="cordova-plugin-file" spec="6.0.1" />
     <plugin name="cordova-plugin-x-socialsharing" spec="5.4.1" />
     <plugin name="onesignal-cordova-plugin" spec="2.4.5" />
+    <plugin name="cordova-plugin-admob-free" spec="0.22.0">
+        <variable name="ADMOB_APP_ID" value="ghumi-mobile" />
+    </plugin>
+    <plugin name="cordova-plugin-inappbrowser" spec="3.0.0" />
+    <allow-navigation href="http://172.31.80.1:8100" />
     <engine name="android" spec="7.1.1" />
 </widget>

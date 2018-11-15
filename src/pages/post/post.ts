@@ -15,8 +15,11 @@ import { SocialSharing } from '@ionic-native/social-sharing';
   templateUrl: 'post.html',
 })
 export class PostPage {
-  private post: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private socialSharing: SocialSharing) {
+  public post: any;
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    private socialSharing: SocialSharing) {
     this.post = navParams.get('post');
     console.log(this.post.title);
   }

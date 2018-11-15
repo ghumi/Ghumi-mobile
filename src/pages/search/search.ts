@@ -24,6 +24,8 @@ export class SearchPage {
   nextPageToken: string;
   posts: any[];
 
+  public isSearchbarOpened = false;
+
   constructor(
     public constants:ConstantsProvider, 
     public http: Http, 

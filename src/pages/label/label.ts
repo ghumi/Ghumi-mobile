@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RestProvider } from '../../providers/rest/rest';
 import { PostPage } from '../post/post';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser';
 
 import { Http } from '@angular/http';
 import { ConstantsProvider } from '../../providers/constants/constants';
@@ -23,6 +24,7 @@ export class LabelPage {
     public navCtrl: NavController, 
     public restProvider: RestProvider,
     private imageLoader: ImageLoader,
+    private inAppBrowser: InAppBrowser,
     public navParams: NavParams) {
     
     http.get('https://www.googleapis.com/blogger/v3/blogs/' + 
@@ -33,15 +35,29 @@ export class LabelPage {
       let data = response.json();
       this.title = 'ghumi.id - ' + navParams.get('label').toLocaleUpperCase( );
       this.nextPageToken = data.nextPageToken;
-      this.posts = this.restructurePost(data.items);
+      this.posts = this.restructurePostLabel(data.items);
     });
   }
   
-  openPost(post) {
+  openPostLabel(post) {
+    console.log('openPostLabel');
     this.navCtrl.push(PostPage, {post:post});
   }
 
-  restructurePost(posts){
+  openPostURL(post){
+    console.log(post.url);
+
+    const options: InAppBrowserOptions = {
+      zoom: 'no'
+    }
+
+    // Opening a URL and returning an InAppBrowserObject
+    const browser = this.inAppBrowser.create(post.url, '_self', options);
+
+    browser.on;
+  }
+
+  restructurePostLabel(posts){
     const parser = new DOMParser();
     for (let post of posts) {
       const html = parser.parseFromString(post.content, 'text/html');
@@ -55,7 +71,7 @@ export class LabelPage {
     return posts;
   }
 
-  restructurePostNextPage(posts){
+  restructurePostNextPageLabel(posts){
     const parser = new DOMParser();
     for (let post of posts) {
       const html = parser.parseFromString(post.content, 'text/html');
@@ -71,25 +87,12 @@ export class LabelPage {
     return posts;
   }
 
-  /*
-  doInfinite(infiniteScroll) {
-    console.log('Begin async operation');
-
-    setTimeout(() => {
-      this.posts.push( this.getNextPage(this.nextPageToken) );
-
-      console.log('Async operation has ended');
-      infiniteScroll.complete();
-    }, 1000);
-  }
-  */
-
-  doInfinite(): Promise<any> {
-    console.log('Begin async operation');
+  doInfiniteLabel(): Promise<any> {
+    console.log('Begin async operation doInfiniteLabel');
 
     return new Promise((resolve) => {
       setTimeout(() => {
-        this.posts.concat( this.getNextPage(this.nextPageToken, this.navParams.get('label')) );
+        this.posts.concat( this.getNextPageLabel(this.nextPageToken, this.navParams.get('label')) );
         console.log(this.posts);
 
         console.log('Async operation has ended');
@@ -98,7 +101,7 @@ export class LabelPage {
     })
   }
 
-  getNextPage(nextToken:string, label: string){
+  getNextPageLabel(nextToken:string, label: string){
     this.http.get('https://www.googleapis.com/blogger/v3/blogs/' + 
                     this.constants.getBlogId() + '/posts?labels=' + 
                     label + '&pageToken=' +
@@ -106,16 +109,16 @@ export class LabelPage {
       .subscribe(response => {
         let data = response.json();
         this.nextPageToken = data.nextPageToken;
-        return this.restructurePostNextPage(data.items);
+        return this.restructurePostNextPageLabel(data.items);
       });
   }
 
-  clearCache(refresher){
+  clearCacheLabel(refresher){
     this.imageLoader.clearCache();
     refresher.complete();    
   }
 
-  onImageLoad(event){
+  onImageLoadLabel(event){
     console.log('image ready!');
   }
 }

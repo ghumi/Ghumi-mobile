@@ -4,7 +4,7 @@ import { LabelPage } from './label';
 
 @NgModule({
   declarations: [
-    LabelPage,
+    //LabelPage,
   ],
   imports: [
     IonicPageModule.forChild(LabelPage),

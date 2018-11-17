@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RestProvider } from '../../providers/rest/rest';
 import { PostPage } from '../post/post';
+import { SearchPage } from '../search/search';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser';
 
@@ -15,8 +16,11 @@ import { ImageLoader } from 'ionic-image-loader';
 })
 export class LabelPage {
   title: string;
+  label: string;
   nextPageToken: string;
   posts: any[];
+
+  public isSearchbarOpened = false;
 
   constructor(
     public constants:ConstantsProvider, 
@@ -33,10 +37,17 @@ export class LabelPage {
               constants.getApiKey())
     .subscribe(response => {
       let data = response.json();
-      this.title = 'ghumi.id - ' + navParams.get('label').toLocaleUpperCase( );
+      this.title = 'ghumi.id | ' + navParams.get('label').toLocaleUpperCase( ); 
+      this.label = navParams.get('label').toLocaleUpperCase( );
       this.nextPageToken = data.nextPageToken;
       this.posts = this.restructurePostLabel(data.items);
     });
+  }
+
+  onSearch(event){ 
+    console.log(event.target.value);
+    this.isSearchbarOpened = false;
+    this.navCtrl.push(SearchPage, {searchString:event.target.value})
   }
   
   openPostLabel(post) {

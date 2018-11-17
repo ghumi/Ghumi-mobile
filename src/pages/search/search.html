@@ -18,6 +18,9 @@
   <ion-content padding>
   <!--<ion-content padding #container>-->
     <ion-list inset>
+      <div *ngIf="isPostEmpty">
+          Pencarian tidak ditemukan.
+      </div>
       <button ion-item *ngFor="let post of posts" (click)="openPost(post)">
         <ion-row>
           <ion-col col-4>

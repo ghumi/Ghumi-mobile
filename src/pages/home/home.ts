@@ -27,9 +27,10 @@ export class HomePage {
     public http: Http, 
     public navCtrl: NavController, 
     private imageLoader: ImageLoader,
-    public restProvider: RestProvider,
-    private admobFree: AdMobFree,
-    private platform: Platform) {
+    public restProvider: RestProvider
+    , private admobFree: AdMobFree,
+    private platform: Platform
+    ) {
     http.get('https://www.googleapis.com/blogger/v3/blogs/byurl?key=' + 
               constants.getApiKey() + '&url=' + constants.getUrl())
     .subscribe(response => {
@@ -64,8 +65,9 @@ export class HomePage {
     this.navCtrl.push(PostPage, {post:post})
   }
 
-  onSearch(event){
+  onSearch(event){ 
     console.log(event.target.value);
+    this.isSearchbarOpened = false;
     this.navCtrl.push(SearchPage, {searchString:event.target.value})
   }
 

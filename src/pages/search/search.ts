@@ -25,6 +25,7 @@ export class SearchPage {
   posts: any[];
 
   public isSearchbarOpened = false;
+  public isPostEmpty = true;
 
   constructor(
     public constants:ConstantsProvider, 
@@ -41,8 +42,31 @@ export class SearchPage {
       .subscribe(response => {
         let data = response.json();
         this.title = 'Search - ' + navParams.get('searchString');
-        this.nextPageToken = data.nextPageToken;
-        this.posts = this.restructurePost(data.items);
+        if(data.items){
+          this.isPostEmpty = false;
+          this.nextPageToken = data.nextPageToken;
+          this.posts = this.restructurePost(data.items);
+        }
+      });
+    }
+
+    onSearch(event){
+      this.posts = null;
+      this.isPostEmpty = true;
+      console.log(event.target.value);
+      this.isSearchbarOpened = false;
+      this.http.get('https://www.googleapis.com/blogger/v3/blogs/' + 
+                    this.constants.getBlogId() + '/posts/search?q=' + 
+                    event.target.value + '&key=' + 
+                    this.constants.getApiKey())
+      .subscribe(response => {
+        let data = response.json();
+        this.title = 'Search - ' + event.target.value;
+        if(data.items){
+          this.isPostEmpty = false;
+          this.nextPageToken = data.nextPageToken;
+          this.posts = this.restructurePost(data.items);
+        }
       });
     }
     

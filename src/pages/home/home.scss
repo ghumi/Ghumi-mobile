@@ -5,4 +5,11 @@ page-home {
     .swiper-wrapper {
         height: auto;
     }
+    .item-md {
+        padding-left: 0;
+    }
+    .list-md[inset] {
+        margin: auto;
+        border-radius: inherit;
+    }
 }

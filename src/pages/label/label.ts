@@ -1,17 +1,16 @@
 import { Component } from '@angular/core';
 import { RestProvider } from '../../providers/rest/rest';
-import { PostPage } from '../post/post';
 import { SearchPage } from '../search/search';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser';
-import { ThemeableBrowser, ThemeableBrowserOptions, ThemeableBrowserObject } from '@ionic-native/themeable-browser';
-import { SocialSharing } from '@ionic-native/social-sharing';
 
 import { Http } from '@angular/http';
 import { ConstantsProvider } from '../../providers/constants/constants';
 import { ImageLoader } from 'ionic-image-loader';
-import { urlToNavGroupStrings } from 'ionic-angular/umd/navigation/url-serializer';
-import { Cordova } from '@ionic-native/core';
+
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { PostPage } from '../../pages/post/post';
+import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser';
+import { ThemeableBrowser, ThemeableBrowserOptions, ThemeableBrowserObject } from '@ionic-native/themeable-browser';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 @IonicPage()
 @Component({
@@ -30,11 +29,11 @@ export class LabelPage {
     public constants:ConstantsProvider, 
     public http: Http, 
     public navCtrl: NavController, 
-    public restProvider: RestProvider,
-    private imageLoader: ImageLoader,
     private inAppBrowser: InAppBrowser,
     private themeableBrowser: ThemeableBrowser, 
     private socialSharing: SocialSharing,
+    public restProvider: RestProvider,
+    private imageLoader: ImageLoader,
     public navParams: NavParams) {
     
     http.get('https://www.googleapis.com/blogger/v3/blogs/' + 
@@ -57,11 +56,16 @@ export class LabelPage {
   }
   
   openPostLabel(post) {
-    console.log('openPostLabel');
+    //this.openPostPage(post);
+    //this.openPostInAppBrowser(post);
+    this.openPostThemeBrowser(post);
+  }
+  
+  openPostPage(post) {
     this.navCtrl.push(PostPage, {post:post});
   }
 
-  openPostURL(post){
+  openPostInAppBrowser(post){
     console.log(post.url);
 
     const options: InAppBrowserOptions = {

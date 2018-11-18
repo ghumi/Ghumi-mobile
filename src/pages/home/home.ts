@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, Platform } from 'ionic-angular';
+import { NavController, Platform } from 'ionic-angular'; 
 import { RestProvider } from '../../providers/rest/rest';
 import { PostPage } from '../post/post';
 import { SearchPage } from '../search/search';
@@ -8,6 +8,9 @@ import { Http } from '@angular/http';
 import { ConstantsProvider } from '../../providers/constants/constants';
 import { ImageLoader } from 'ionic-image-loader';
 import { AdMobFree, AdMobFreeBannerConfig } from '@ionic-native/admob-free';
+import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser';
+import { ThemeableBrowser, ThemeableBrowserOptions, ThemeableBrowserObject } from '@ionic-native/themeable-browser';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 
 @Component({
@@ -29,6 +32,9 @@ export class HomePage {
     private imageLoader: ImageLoader,
     public restProvider: RestProvider
     , private admobFree: AdMobFree,
+    private inAppBrowser: InAppBrowser,
+    private themeableBrowser: ThemeableBrowser, 
+    private socialSharing: SocialSharing,
     private platform: Platform
     ) {
     http.get('https://www.googleapis.com/blogger/v3/blogs/byurl?key=' + 
@@ -62,7 +68,67 @@ export class HomePage {
   }
   
   openPost(post) {
-    this.navCtrl.push(PostPage, {post:post})
+    //this.openPostPage(post);
+    //this.openPostInAppBrowser(post);
+    this.openPostThemeBrowser(post);
+  }
+  
+  openPostPage(post) {
+    this.navCtrl.push(PostPage, {post:post});
+  }
+
+  openPostInAppBrowser(post){
+    console.log(post.url);
+
+    const options: InAppBrowserOptions = {
+      zoom: 'no'
+    }
+
+    // Opening a URL and returning an InAppBrowserObject
+    const browser = this.inAppBrowser.create(post.url, '_self', options);
+
+    browser.on;
+  }
+
+  openPostThemeBrowser(post){
+    const options: ThemeableBrowserOptions = {
+      toolbar: {
+          height: 56,
+          color: '#d0403e'
+      },
+      title: {
+          color: '#ffffffff',
+          showPageTitle: true,
+          staticText: 'ghumi.id'
+      },
+      closeButton: {
+        wwwImage: 'assets/imgs/close.png',
+        align: 'left',
+        event: 'closePressed'
+      },
+      customButtons: [
+          {
+              wwwImage: 'assets/imgs/share.png',
+              align: 'right',
+              event: 'sharePressed'
+          }
+      ],
+    };
+
+    const browser: ThemeableBrowserObject = this.themeableBrowser.create(post.url, '_blank', options);
+
+    browser.on('closePressed').subscribe(res => {
+      browser.close();
+    });
+
+    browser.on('sharePressed').subscribe(res => 
+      this.socialSharing.share(post.url)
+      .then(()=>{
+  
+      }).catch(()=>{
+        
+      })
+    );
   }
 
   onSearch(event){ 

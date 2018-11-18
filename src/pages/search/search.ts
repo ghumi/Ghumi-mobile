@@ -6,6 +6,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { ConstantsProvider } from '../../providers/constants/constants';
 import { ImageLoader } from 'ionic-image-loader';
+import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser';
+import { ThemeableBrowser, ThemeableBrowserOptions, ThemeableBrowserObject } from '@ionic-native/themeable-browser';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 /**
  * Generated class for the SearchPage page.
@@ -26,6 +29,7 @@ export class SearchPage {
 
   public isSearchbarOpened = false;
   public isPostEmpty = true;
+  public postMessage = 'Searching.....';
 
   constructor(
     public constants:ConstantsProvider, 
@@ -33,6 +37,9 @@ export class SearchPage {
     public navCtrl: NavController, 
     public restProvider: RestProvider,
     private imageLoader: ImageLoader,
+    private inAppBrowser: InAppBrowser,
+    private themeableBrowser: ThemeableBrowser, 
+    private socialSharing: SocialSharing,
     public navParams: NavParams) {
     
       http.get('https://www.googleapis.com/blogger/v3/blogs/' + 
@@ -66,12 +73,75 @@ export class SearchPage {
           this.isPostEmpty = false;
           this.nextPageToken = data.nextPageToken;
           this.posts = this.restructurePost(data.items);
+        }else{
+          this.isPostEmpty = true;
+          this.postMessage = 'Search Not Found';
         }
       });
     }
-    
+  
     openPost(post) {
+      //this.openPostPage(post);
+      //this.openPostInAppBrowser(post);
+      this.openPostThemeBrowser(post);
+    }
+    
+    openPostPage(post) {
       this.navCtrl.push(PostPage, {post:post});
+    }
+  
+    openPostInAppBrowser(post){
+      console.log(post.url);
+  
+      const options: InAppBrowserOptions = {
+        zoom: 'no'
+      }
+  
+      // Opening a URL and returning an InAppBrowserObject
+      const browser = this.inAppBrowser.create(post.url, '_self', options);
+  
+      browser.on;
+    }
+  
+    openPostThemeBrowser(post){
+      const options: ThemeableBrowserOptions = {
+        toolbar: {
+            height: 56,
+            color: '#d0403e'
+        },
+        title: {
+            color: '#ffffffff',
+            showPageTitle: true,
+            staticText: 'ghumi.id'
+        },
+        closeButton: {
+          wwwImage: 'assets/imgs/close.png',
+          align: 'left',
+          event: 'closePressed'
+        },
+        customButtons: [
+            {
+                wwwImage: 'assets/imgs/share.png',
+                align: 'right',
+                event: 'sharePressed'
+            }
+        ],
+      };
+  
+      const browser: ThemeableBrowserObject = this.themeableBrowser.create(post.url, '_blank', options);
+  
+      browser.on('closePressed').subscribe(res => {
+        browser.close();
+      });
+  
+      browser.on('sharePressed').subscribe(res => 
+        this.socialSharing.share(post.url)
+        .then(()=>{
+    
+        }).catch(()=>{
+          
+        })
+      );
     }
   
     restructurePost(posts){

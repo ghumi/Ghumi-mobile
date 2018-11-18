@@ -43,7 +43,7 @@ export class MyApp {
       this.imageLoaderConfig.setMaximumCacheAge(24 * 60 * 60 * 1000);
 
       this.statusBar.styleDefault();
-      this.splashScreen.show();
+      this.splashScreen.hide();
 
       var notificationOpenedCallback = function(jsonData) {
         console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));

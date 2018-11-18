@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
 
 @Injectable()
 export class ConstantsProvider {
@@ -9,6 +10,7 @@ export class ConstantsProvider {
   private blogId = '9096603620736148163';
 
   constructor(
+    public http: Http, 
     public httpClient: HttpClient) {
     console.log('Hello ConstantsProvider Provider');
   }

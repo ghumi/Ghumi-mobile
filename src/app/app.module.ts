@@ -7,6 +7,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { StatusBar } from '@ionic-native/status-bar';
 import { InAppBrowser} from '@ionic-native/in-app-browser';
+import { ThemeableBrowser } from '@ionic-native/themeable-browser';
 //import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { IonicImageLoader } from 'ionic-image-loader';
 
@@ -51,6 +52,7 @@ import { ConstantsProvider } from '../providers/constants/constants';
     SocialSharing,
     AdMobFree,
     InAppBrowser,
+    ThemeableBrowser,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     RestProvider,
     ConstantsProvider

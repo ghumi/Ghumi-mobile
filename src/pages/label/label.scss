@@ -15,4 +15,22 @@ page-label {
     .item-md {
         padding-left: 0;
     }
+    .toolbar-background-md {
+        border-color: #d0403e;
+        background: #d0403e;
+    }
+    .toolbar-title-md {
+        color: #ffffff;
+    }
+    .card-md {
+        margin: 0;
+        border-radius: 0;
+        width: auto;
+    }
+    ion-card {
+        display: contents;
+    }
+    ion-icon{
+        color: #ffffff;
+    }
 }

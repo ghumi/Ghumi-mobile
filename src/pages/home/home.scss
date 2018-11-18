@@ -12,4 +12,28 @@ page-home {
         margin: auto;
         border-radius: inherit;
     }
+    .toolbar-background-md {
+        border-color: #d0403e;
+        border-top-color: rgb(208, 64, 62);
+        border-right-color: rgb(208, 64, 62);
+        border-bottom-color: rgb(208, 64, 62);
+        border-left-color: rgb(208, 64, 62);
+        background: #d0403e;
+        background-image: initial;
+        background-position-x: initial;
+        background-position-y: initial;
+        background-size: initial;
+        background-repeat-x: initial;
+        background-repeat-y: initial;
+        background-attachment: initial;
+        background-origin: initial;
+        background-clip: initial;
+        background-color: rgb(208, 64, 62);
+    }
+    .toolbar-title-md {
+        color: #ffffff;
+    }
+    ion-icon{
+        color: #ffffff;
+    }
 }

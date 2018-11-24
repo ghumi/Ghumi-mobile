@@ -79,7 +79,7 @@ export class LabelPage {
   }
 
   openPostThemeBrowser(post){
-    const options: ThemeableBrowserOptions = {
+    var options: ThemeableBrowserOptions = {
       toolbar: {
           height: 56,
           color: '#d0403e'
@@ -102,21 +102,22 @@ export class LabelPage {
           }
       ],
     };
-
+    
     const browser: ThemeableBrowserObject = this.themeableBrowser.create(post.url, '_blank', options);
-
+    
     browser.on('closePressed').subscribe(res => {
       browser.close();
     });
 
-    browser.on('sharePressed').subscribe(res => 
-      this.socialSharing.share(post.url)
-      .then(()=>{
-  
-      }).catch(()=>{
-        
-      })
+    browser.on('sharePressed').subscribe(
+      (e) => {
+        this.socialSharing.share(e.url)
+      },
+      err => {
+          console.log("InAppBrowser loadstart Event Error: " + err);
+      }
     );
+    
   }
 
   restructurePostLabel(posts){

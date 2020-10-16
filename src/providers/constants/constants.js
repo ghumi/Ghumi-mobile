@@ -19,7 +19,7 @@ var ConstantsProvider = /** @class */ (function () {
     function ConstantsProvider(http) {
         this.http = http;
         this.url = 'http://www.ghumi.id/';
-        this.apiKey = 'AIzaSyCZWqskZe-CGH73-Xv6LJz0-LmHdLIpl4g';
+        this.apiKey = 'XXX';
         this.blogId = '9096603620736148163';
         console.log('Hello ConstantsProvider Provider');
     }
